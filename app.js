@@ -5,7 +5,7 @@ app.factory('posts', [function() {
 		posts: []
 	};
 	return o;
-}])
+}]);
 
 app.config([
 	'$stateProvider',
@@ -16,7 +16,7 @@ app.config([
 				url: '/home',
 				templateUrl: '/home.html',
 				controller: 'MainCtrl'
-			});
+			})
 
 			.state('posts', {
 				url: '/posts/{id}',
@@ -32,8 +32,18 @@ app.controller('PostsCtrl', [
 	'$stateParams',
 	'posts',
 	function($scope, $stateParams, posts){
-
-
+		$scope.post = posts.posts [$stateParams.id];
+		$scope.addComment = function() {
+			if($scope.body === '') {
+				return;
+			}
+			$scope.post.comments.push({
+				body: $scope.body,
+				author: 'user',
+				upvotes: 0
+			})
+			$scope.body = '';
+		};
 	}]);
 
 app.controller('MainCtrl', [
